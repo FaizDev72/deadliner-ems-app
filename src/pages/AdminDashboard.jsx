@@ -2,40 +2,17 @@ import { Button } from '@/components/ui/button';
 import { LogOut, UserRound, UsersRound } from 'lucide-react';
 import { CalendarPlus } from 'lucide-react';
 import {
-    Table,
-    TableBody,
-    TableCaption,
-    TableCell,
-    TableFooter,
-    TableHead,
-    TableHeader,
-    TableRow,
-} from "@/components/ui/table"
-
-import {
     Dialog,
     DialogContent,
     DialogDescription,
-    DialogFooter,
     DialogHeader,
     DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog"
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { useState } from 'react';
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select"
-import { Textarea } from "@/components/ui/textarea"
 import { ScrollArea } from "@/components/ui/scroll-area"
-import EmployeeTable from '../components/EmployeeTable';
-import CreateTaskDialog from '../components/CreateTaskDialog';
-import AddEmployeeDialog from '../components/AddEmployeeDialog';
+import EmployeeTable from '../components/admin/EmployeeTable';
+import CreateTaskDialog from '../components/admin/CreateTaskDialog';
+import AddEmployeeDialog from '../components/admin/AddEmployeeDialog';
 
 
 

@@ -144,3 +144,23 @@ body{
     @apply dark bg-background text-foreground;
   }
 }
+
+
+.customScrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: #475569 #1e293b;
+}
+
+.customScrollbar::-webkit-scrollbar {
+  width: 12px;
+}
+
+.customScrollbar::-webkit-scrollbar-track {
+  background: #1e293b;
+}
+
+.customScrollbar::-webkit-scrollbar-thumb {
+  background-color: #475569;
+  border-radius: 6px;
+  border: 3px solid #1e293b;
+}
