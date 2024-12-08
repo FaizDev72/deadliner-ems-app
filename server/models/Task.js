@@ -20,7 +20,7 @@ const TaskSchema = new mongoose.Schema({
     status: {
         type: String,
         enum: ["new", "active", "completed", "failed"],
-        require: true,
+        default: "new",
     },
     assignedTo: {
         type: mongoose.Schema.Types.ObjectId,

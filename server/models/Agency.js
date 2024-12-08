@@ -16,7 +16,6 @@ const AgencySchema = new mongoose.Schema({
     employees: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: "Employee",
-        require: true,
     }]
 }, { timestamps: true })
 

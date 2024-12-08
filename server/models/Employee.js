@@ -42,7 +42,7 @@ const EmployeeSchema = new mongoose.Schema({
         type: String,
         enum: ["employee", "admin"]
     },
-    agency: {
+    agencyID: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Agency",
         require: true,
@@ -50,7 +50,6 @@ const EmployeeSchema = new mongoose.Schema({
     taskList: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: "Task",
-        require: true,
     }],
 }, { timestamps: true })
 
