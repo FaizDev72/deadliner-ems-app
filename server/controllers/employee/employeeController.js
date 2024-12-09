@@ -3,14 +3,23 @@ const Employee = require('../../models/Employee');
 
 exports.createEmployee = async (req, res) => {
     try {
-        // get all data 
-        const { fullName, age, address, email, gender, mobileNo, agencyID, role } = req.body;
+        // get all data     
+        const { fullName, age, address, email, gender, mobileNo, agencyID, role, adminID } = req.body;
 
         // validation of the feilds
         if (!fullName || !age || !address || !email || !gender || !mobileNo || !agencyID || !adminID) {
             return res.status(400).json({
                 success: false,
                 message: 'Empty field'
+            })
+        }
+
+        // Check if email already exists
+        const isEmailExists = await Employee.findOne({ email })
+        if (isEmailExists) {
+            return res.status(409).json({
+                success: false,
+                message: 'Email is already registered.'
             })
         }
 
@@ -37,7 +46,7 @@ exports.createEmployee = async (req, res) => {
     }
 }
 
-exports.getAllEmployees = async () => {
+exports.getAllEmployees = async (req, res) => {
     try {
         // fetch all employees
         const employeeList = await Employee.find();
@@ -71,20 +80,19 @@ exports.getAllEmployees = async () => {
 exports.getEmployee = async (req, res) => {
     try {
         // get id of the employee
-        const { id } = req.body;
-
+        const { id } = req.params;
         // search for it
         const employee = await Employee.findById(id);
 
         // if not found
         if (!employee) {
-            res.status(404).json({
+            return res.status(404).json({
                 success: true,
                 message: "Employee not found",
             });
         }
 
-        res.status(200).json({
+        return res.status(200).json({
             success: true,
             data: employee,
             message: "Employee Exists",
@@ -100,7 +108,7 @@ exports.getEmployee = async (req, res) => {
     }
 }
 
-exports.updateEmployee = async () => {
+exports.updateEmployee = async (req, res) => {
     try {
         // get id   
         const { id } = req.params;
@@ -133,7 +141,7 @@ exports.updateEmployee = async () => {
     }
 }
 
-exports.deleteEmployee = async () => {
+exports.deleteEmployee = async (req, res) => {
     try {
         // fetch data
         const { id } = req.params;

@@ -1,7 +1,8 @@
 const Employee = require("../../models/Employee");
+const mongoose = require('mongoose');
 const Task = require("../../models/Task");
 
-exports.createTask = async () => {
+exports.createTask = async (req, res) => {
     try {
         // get all  data
         const { title, description, category, deadline, empID, adminID } = req.body;
@@ -39,7 +40,7 @@ exports.createTask = async () => {
 
 }
 
-exports.revokeTask = async () => {
+exports.revokeTask = async (req, res) => {
     try {
         // get taskID
         const { id } = req.params;
@@ -52,10 +53,10 @@ exports.revokeTask = async () => {
             })
         }
 
-        let status = failed;
+        let status = 'failed';
 
         // fetch the task and just mark status to failed of that task
-        let task = await Task.findByIdAndUpdate(id, { $set: status }, { new: true });
+        let task = await Task.findByIdAndUpdate(id, { $set: { status } }, { new: true });
 
         if (!task) {
             return res.status(404).json({
@@ -80,39 +81,51 @@ exports.revokeTask = async () => {
     }
 }
 
-exports.getAllTaskofEmployee = async () => {
+exports.getAllTaskofEmployee = async (req, res) => {
     try {
-        // get empID
+        // Get empID from the request params
         const { empID } = req.params;
 
-        // fetch all task
-        let taskList = Task.find({ empID });
-
-        // if not
-        if (!taskList) {
-            res.status(200).json({
-                success: true,
-                data: 0,
-                message: "No task found",
+        // Validate empID
+        if (!empID) {
+            return res.status(400).json({
+                success: false,
+                message: "Employee ID is required.",
             });
         }
 
-        // if task found
-        res.status(200).json({
+        // Convert empID to ObjectId
+        const employeeId = new mongoose.Types.ObjectId(empID);
+
+        // Fetch all tasks assigned to the employee
+        const taskList = await Task.find({ assignedTo: employeeId });
+
+        // Check if tasks exist
+        if (!taskList || taskList.length === 0) {
+            return res.status(200).json({
+                success: true,
+                data: [],
+                message: "No tasks found for the employee.",
+            });
+        }
+
+        // Return the tasks
+        return res.status(200).json({
             success: true,
             data: taskList,
-            message: "Task List",
+            message: "Task list retrieved successfully.",
         });
     } catch (error) {
-        console.error("Error creating agency:", error);
+        console.error("Error fetching Task:", error);
         return res.status(500).json({
             success: false,
             message: "Internal server error.",
         });
     }
-}
+};
 
-exports.updateTaskStatus = async () => {
+
+exports.updateTaskStatus = async (req, res) => {
     try {
         // get id
         const { id } = req.params;

@@ -4,10 +4,12 @@ const Employee = require("../../models/Employee");
 exports.createAgency = async (req, res) => {
     try {
         // extract data
+        // console.log(req.body);
+        // return;
         const { agencyName, businessDomain, agencyAddress, fullName, age, address, email, gender, mobileNo } = req.body;
 
         // validation
-        if (!agencyName || !businessDomain || !address) {
+        if (!agencyName || !businessDomain || !agencyAddress || !fullName || !age || !address || !email || !gender || !mobileNo) {
             return res.status(400).json({
                 success: false,
                 message: "Missing Data",
@@ -25,7 +27,7 @@ exports.createAgency = async (req, res) => {
 
         // Create Agency
         const agency = await Agency.create({
-            agencyName, businessDomain, address
+            agencyName, businessDomain, agencyAddress
         });
 
         // if error return

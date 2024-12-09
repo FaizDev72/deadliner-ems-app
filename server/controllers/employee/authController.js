@@ -22,7 +22,7 @@ exports.sendOTP = async (req, res) => {
         // check if the otp id unique than other otp in the db
         let flag = true;
 
-        let otpList = await OTPVerification.find(otp);
+        let otpList = await OTPVerification.find({otp});
 
         while (flag) {
             if (otpList.includes(otp)) {
